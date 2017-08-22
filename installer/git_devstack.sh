@@ -6,6 +6,6 @@ git clone https://git.openstack.org/openstack-dev/devstack
 # You can use GIT_BASE=https://openstack.org instead.
 git config --global url."https://".insteadOf git://
 
-# required packages from stack.sh
-# install generate-subunit
+# Install generate-subunit
+# It is required packages from stack.sh
 pip install -U os-testr

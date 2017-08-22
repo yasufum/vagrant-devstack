@@ -39,9 +39,9 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", ip: "192.168.33.11"
 
   if Vagrant.has_plugin?("vagrant-proxyconf")
-    config.proxy.http = "http://proxy-bcp.ecl.ntt.co.jp:20066/"
-    config.proxy.https = "http://proxy-bcp.ecl.ntt.co.jp:20066/"
-    config.proxy.no_proxy = "localhost,127.0.0.0/8"
+    config.proxy.http = ENV["http_proxy"]
+    config.proxy.https = ENV["https_proxy"]
+    config.proxy.no_proxy = ENV["no_proxy"]
   end
 
   # Create a public network, which generally matched to bridged network.

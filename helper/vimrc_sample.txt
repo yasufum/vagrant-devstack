@@ -1,0 +1,35 @@
+set number
+set expandtab
+set ts=2 sw=2
+set softtabstop=2
+
+
+" Status Line
+set showcmd
+set laststatus=2
+
+" Search
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+set showmatch
+set matchtime=1  " set to 100[msec], default is 5
+set backspace=2
+
+" Indent Setting
+"set foldmethod=indent
+"set foldlevel=1
+"set foldcolumn=3
+
+" Assign jj as ESC in insert mode.
+inoremap <silent> jj <ESC>
+
+" yank whole line
+nnoremap Y y$
+
+" show tag candidate
+nnoremap <C-]> g<C-]>
+
+"colorscheme darkBlue 

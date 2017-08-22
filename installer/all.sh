@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE_DIR=/vagrant/installer
-UTILS_DIR=/vagrant/utils
+UTILS_DIR=/vagrant/util
 
 echo "Install devstack and related packages"
 source ${BASE_DIR}/devstack.sh

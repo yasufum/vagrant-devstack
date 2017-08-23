@@ -26,4 +26,4 @@ nnoremap Y y$
 " show tag candidate
 nnoremap <C-]> g<C-]>
 
-"colorscheme darkBlue 
+colorscheme koehler

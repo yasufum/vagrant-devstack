@@ -36,12 +36,13 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.11"
+  host_ip = "192.168.33.11"
+  config.vm.network "private_network", ip: host_ip
 
   if Vagrant.has_plugin?("vagrant-proxyconf")
     config.proxy.http = ENV["http_proxy"]
     config.proxy.https = ENV["https_proxy"]
-    config.proxy.no_proxy = ENV["no_proxy"]
+    config.proxy.no_proxy = ENV["no_proxy"] + "," + host_ip
   end
 
   # Create a public network, which generally matched to bridged network.

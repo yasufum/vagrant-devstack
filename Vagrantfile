@@ -5,6 +5,26 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+
+hv_type = "virtualbox"
+
+hv_types = {
+  virtualbox: {provider: "virtualbox", box: "ubuntu/xenial64"},
+  libvirt: {provider: "libvirt", box: "yk0/ubuntu-xenial"}
+}
+
+my_box = hv_types[hv_type.to_sym][:box]
+my_provider = hv_types[hv_type.to_sym][:provider]
+
+box_list = []
+`vagrant box list`.each_line {|l|
+  box_list << l.split(" ")[0]
+}
+
+if not (box_list.include? my_box)
+  `vagrant box add #{my_box}`
+end
+
 Vagrant.configure("2") do |config|
   #config.ssh.insert_key = true
   #config.ssh.username = "ubuntu"
@@ -16,7 +36,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   #config.vm.box = "ubuntu/trusty64"
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = my_box
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -59,8 +79,9 @@ Vagrant.configure("2") do |config|
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
-  #
-  config.vm.provider "virtualbox" do |vb|
+
+
+  config.vm.provider my_provider do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #

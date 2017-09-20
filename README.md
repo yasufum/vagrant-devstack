@@ -18,7 +18,7 @@ $ cp samples/local.conf .
 $ ./stack.sh
 ```
 
-Japanese README_ja.md is [here](docs/README_ja.md).
+Japanese README_ja.md is [here](doc/README_ja.md).
 
 ## How to use
 
@@ -34,16 +34,9 @@ First of all, you need to download VirtualBox from
 
 You also need to install
 [vagrant](https://www.vagrantup.com/)
-and download vagrant box.
-As defiend in Vagrantfile, this tool expects to use xenial64 of
-official box from Ubuntu.
-Run `vagrant box` command to get the box.
 
-```sh
-$ vagrant box add ubuntu/xenial64
-# Show all of boxes installed
-$ vagrant box list
-```
+This tool downloads and uses xenial64 of official box from Ubuntu.
+If you use other box, you need to edit Vagrantfile.
 
 Now, you are ready to run Vagrantfile.
 
@@ -57,7 +50,7 @@ On the other hand, you should not edit installation in provision
 seciton at the last part.
 
 By running Vagrantfile, packages are installed and stack user is
-created no the VM.
+created on the VM.
 
 ```sh
 vagrant up
@@ -67,7 +60,8 @@ vagrant up
 
 After VM is launched, login and install DevStack.
 
-You can setup and get for devstack by using support scripts.
+You can setup and get for devstack and other tools
+by running `all.sh` support scripts.
 
 ```sh
 $ vagrant ssh
@@ -75,8 +69,9 @@ $ /vagrant/install/all.sh # run all of support scripts
 ```
 
 There are three categories of support scripts
-in `/vagrant/`.
-You can also use any of script without using `all.sh`.
+in `/vagrant/` on the VM.
+If you do not install all of tools, you run each of scripts in
+`/vagrant/install/`.
 
 1. helper: add/delete stack user to clear your installation.
 1. install: change configurations for installation and do.
@@ -102,7 +97,7 @@ You can also use any of script without using `all.sh`.
     └── wf.sh
 ```
 
-### Install devstack
+### Install DevStack
 
 Finally, create your local.conf and run `stack.sh` for installation.
 

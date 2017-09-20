@@ -76,15 +76,13 @@ $ /vagrant/install/all.sh # run all of support scripts
 もし`all.sh`を用いるのではなく個別にインストールする場合は、
 `/vagrant/install/`以下のファイルをそれぞれ実行します。
 
-1. helper: add/delete stack user to clear your installation.
-1. install: change configurations for installation and do.
-  * all.sh: install all of packages (no need if you run each installon
-    by yourself).
-  * devstack.sh: get and setup devstack (DO NOT install yet).
-  * dein.sh: setup and install dein (vim package manager).
-1. util: add utility function for your shell by including in `.bashrc`.
-  * wf.sh: word find function for search target word from files in current.
-    child dirs 
+1. helper: 環境をクリアするために、stackユーザーの削除と追加を行います
+1. install: インストールのための環境設定およびインストールを実行します
+  * all.sh: 以下の全てのスクリプトを実行
+  * devstack.sh: devstackの取得とセットアップを実行(インストールはしない)
+  * dein.sh: vimのパッケージマネージャであるdeinのインストール
+1. util: bashのユーティリティ関数を追加(`.bashrc`に追記されます)
+  * wf.sh: 任意の単語を含むwfコマンドを追加
 
 ```
 /vagrant

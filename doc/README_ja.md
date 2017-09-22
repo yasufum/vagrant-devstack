@@ -30,7 +30,7 @@ local.confの作成と`stack.sh`の実行は自身で別途行います。
 ### VirtualBoxとVagrantのインストール
 
 まず始めに
-[ここ](https://www.virtualbox.org/) and install.
+[ここ](https://www.virtualbox.org/)
 からVirtualBoxをダウンロードしてインストールを実行します。
 
 次に

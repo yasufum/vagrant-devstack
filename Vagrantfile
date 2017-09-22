@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
   #
   #   # Customize the amount of memory on the VM:
     #vb.customize ["modifyhd", "disk id", "--resize", "size in megabytes"]
-    vb.cpus = "4"
+    vb.cpus = "2"
     vb.memory = "#{1024 * 6}"
   end
   #

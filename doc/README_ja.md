@@ -34,7 +34,13 @@ local.confの作成と`stack.sh`の実行は自身で別途行います。
 
 次に
 [vagrant](https://www.vagrantup.com/)
-と`vagrant-proxyconf`プラグインをインストールします。
+をインストールします。
+またプロキシ環境下にいるのであれば、
+以下のようにして`vagrant-proxyconf`プラグインもインストールします。
+
+```sh
+$ vagrant plugin install vagrant-proxyconf
+```
 
 このツールではデフォルトでUbuntuオフィシャルの
 xenial64をダウンロードして使用します。

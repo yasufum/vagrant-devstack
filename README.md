@@ -34,7 +34,11 @@ First of all, you need to download VirtualBox from
 
 You also need to install
 [vagrant](https://www.vagrantup.com/)
-and `vagrant-proxyconf` plugin.
+and `vagrant-proxyconf` plugin if you are in proxy environment.
+
+```sh
+$ vagrant plugin install vagrant-proxyconf
+```
 
 This tool downloads and uses xenial64 of official box from Ubuntu.
 If you use other box, you need to edit Vagrantfile.

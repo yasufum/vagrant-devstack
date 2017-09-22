@@ -11,7 +11,7 @@ Here is the most simple usecase.
 $ vagrant up
 # Launching a VM ...
 $ vagrant ssh
-$ /vagrant/install/all.sh
+$ /vagrant/installer/all.sh
 $ cd devstack
 $ cp samples/local.conf .
 # Edit local.conf
@@ -66,19 +66,21 @@ by running `all.sh` support scripts.
 
 ```sh
 $ vagrant ssh
-$ /vagrant/install/all.sh # run all of support scripts
+# Change to stack user
+$ sudo su - stack
+$ /vagrant/installer/all.sh # run all of support scripts
 ```
 
 There are three categories of support scripts
 in `/vagrant/` on the VM.
 If you do not install all of tools, you run each of scripts in
-`/vagrant/install/`.
+`/vagrant/installer/`.
 
 1. helper: add/delete stack user to clear your installation.
 1. install: change configurations for installation and do.
   * all.sh: install all of packages (no need if you run each installon
     by yourself).
-  * devstack.sh: get and setup devstack (DO NOT install yet).
+  * devstack.sh: get and setup devstack (NOT installed yet).
   * dein.sh: setup and install dein (vim package manager).
 1. util: add utility function for your shell by including in `.bashrc`.
   * wf.sh: word find function for search target word from files in current.

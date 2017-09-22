@@ -11,7 +11,7 @@ devstackをインストールするためのVagrantfileです。
 $ vagrant up
 # Launching a VM ...
 $ vagrant ssh
-$ /vagrant/install/all.sh
+$ /vagrant/installer/all.sh
 $ cd devstack
 $ cp samples/local.conf .
 # Edit local.conf
@@ -67,14 +67,14 @@ VMが起動したら、ログインしてdevstackをインストールします�
 
 ```sh
 $ vagrant ssh
-$ /vagrant/install/all.sh # run all of support scripts
+$ /vagrant/installer/all.sh # run all of support scripts
 ```
 
 そのほかにもサポートスクリプトが用意されており、3つのカテゴリに分類されます。
 これらのスクリプトはログインしたVMの
 `/vagrant/`ディレクトリに配置されています。
 もし`all.sh`を用いるのではなく個別にインストールする場合は、
-`/vagrant/install/`以下のファイルをそれぞれ実行します。
+`/vagrant/installer/`以下のファイルをそれぞれ実行します。
 
 1. helper: 環境をクリアするために、stackユーザーの削除と追加を行います
 1. install: インストールのための環境設定およびインストールを実行します

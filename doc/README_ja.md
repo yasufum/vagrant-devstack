@@ -4,6 +4,7 @@
 
 [VirtualBox](https://www.virtualbox.org/)環境に
 devstackをインストールするためのVagrantfileです。
+libvirtなど他のハイパーバイザーにも対応する予定です。
 
 以下のようにして使用します。
 

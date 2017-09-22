@@ -4,6 +4,7 @@
 
 Vagrantfile for install devstack on
 [VirtualBox](https://www.virtualbox.org/).
+It is planned to support libvirt or other hypervisors.
 
 Here is the most simple usecase.
 

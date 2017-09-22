@@ -54,6 +54,18 @@ You should edit params to be appropriate for your environment.
 On the other hand, you should not edit installation in provision
 seciton at the last part.
 
+```ruby
+# Vagrantfile
+
+# VM params
+NOF_CPU = 2
+MEMSIZE = 6  # MB
+
+# Define hypervisor.
+# Currently, "virtualbox" or "libvirt" is supported as default.
+hv_type = "virtualbox"
+```
+
 By running Vagrantfile, packages are installed and stack user is
 created on the VM.
 

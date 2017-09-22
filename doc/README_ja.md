@@ -57,6 +57,18 @@ VagrantfileはVMのパラメータ(cpu, memory, etc.)や
 一方、Vagrantfileの最後にあるprovisionのセクションについては
 編集の必要はありません。
 
+```ruby
+# Vagrantfile
+
+# VM params
+NOF_CPU = 2
+MEMSIZE = 6  # MB
+
+# Define hypervisor.
+# Currently, "virtualbox" or "libvirt" is supported as default.
+hv_type = "virtualbox"
+```
+
 以下の様にVagrantfileを実行すると、VMが起動され、
 パッケージのインストールやstackユーザーの作成が行われます。
 

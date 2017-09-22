@@ -6,8 +6,20 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
+# VM params
+NOF_CPU = 2
+MEMSIZE = 6  # MB
+
+# Define hypervisor.
+# Currently, "virtualbox" or "libvirt" is supported as default.
 hv_type = "virtualbox"
 
+# Vagrant boxes
+# [NOTE] You can use any of box by changing 'box' attribute or
+#        other entries of hypervisor.
+#        Please refer to https://app.vagrantup.com/boxes/search
+#        for available box list.
+#        'provider' attribute must be correspond to 'hv_type'.
 hv_types = {
   virtualbox: {provider: "virtualbox", box: "ubuntu/xenial64"},
   libvirt: {provider: "libvirt", box: "yk0/ubuntu-xenial"}
@@ -16,11 +28,12 @@ hv_types = {
 my_box = hv_types[hv_type.to_sym][:box]
 my_provider = hv_types[hv_type.to_sym][:provider]
 
+# Check if you have already downloaded target box.
 box_list = []
 `vagrant box list`.each_line {|l|
   box_list << l.split(" ")[0]
 }
-
+# If you don't have the box, download it.
 if not (box_list.include? my_box)
   `vagrant box add #{my_box}`
 end
@@ -89,8 +102,8 @@ Vagrant.configure("2") do |config|
   #
   #   # Customize the amount of memory on the VM:
     #vb.customize ["modifyhd", "disk id", "--resize", "size in megabytes"]
-    vb.cpus = "2"
-    vb.memory = "#{1024 * 6}"
+    vb.cpus = "#{NOF_CPU}"
+    vb.memory = "#{MEMSIZE * 1024}"
   end
   #
   # View the documentation for the provider you are using for more

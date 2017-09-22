@@ -86,6 +86,8 @@ VMが起動したら、ログインしてdevstackをインストールします�
 
 ```sh
 $ vagrant ssh
+# Change to stack user
+$ sudo su - stack
 $ /vagrant/installer/all.sh # run all of support scripts
 ```
 

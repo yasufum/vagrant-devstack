@@ -12,6 +12,7 @@ Here is the most simple usecase.
 $ vagrant up
 # Launching a VM ...
 $ vagrant ssh
+$ sudo su - stack
 $ /vagrant/installer/all.sh
 $ cd devstack
 $ cp samples/local.conf .

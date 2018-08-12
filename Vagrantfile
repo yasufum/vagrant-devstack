@@ -8,7 +8,8 @@
 
 # VM params
 NOF_CPU = 2
-MEMSIZE = 6  # MB
+MEMSIZE = 6  # GB
+HOST_IP = "192.168.33.11"
 
 # Define hypervisor.
 # Currently, "virtualbox" or "libvirt" is supported as default.
@@ -69,7 +70,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  host_ip = "192.168.33.11"
+  host_ip = HOST_IP
   config.vm.network "private_network", ip: host_ip
 
   if Vagrant.has_plugin?("vagrant-proxyconf")

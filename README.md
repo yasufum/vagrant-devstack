@@ -6,17 +6,50 @@ Vagrantfile for install devstack on
 [VirtualBox](https://www.virtualbox.org/).
 It is planned to support libvirt or other hypervisors.
 
-Here is the most simple usecase.
+## Getting Started
+
+Launching a VM.
 
 ```sh
 $ vagrant up
-# Launching a VM ...
+```
+
+If you consider using `git review` inside the VM,
+you can export your git environment on host.
+`helper/git_setup_gen.sh` is used for generating a script
+`helper/git_setup.sh` to setup your minimum git environment on the VM.
+
+```sh
+# Generate helper/git_setup.sh
+$ sh helper/git_setup_gen.sh
+```
+
+Login and Change to stack user.
+
+```sh
 $ vagrant ssh
 $ sudo su - stack
+```
+
+Run all of installation at once.
+
+```sh
 $ /vagrant/installer/all.sh
+```
+
+If you created `helper/git_setup.sh`, run this script
+to import the git environment.
+
+```sh
+$ /vagrant/helper/git_setup.sh
+```
+
+Setup devstack.
+
+```sh
 $ cd devstack
 $ cp samples/local.conf .
-# Edit local.conf
+# Edit local.conf and run stack.sh
 $ ./stack.sh
 ```
 
@@ -61,18 +94,18 @@ seciton at the last part.
 
 # VM params
 NOF_CPU = 2
-MEMSIZE = 6  # MB
+MEMSIZE = 6  # GB
 
 # Define hypervisor.
-# Currently, "virtualbox" or "libvirt" is supported as default.
 hv_type = "virtualbox"
 ```
 
-By running Vagrantfile, packages are installed and stack user is
-created on the VM.
+By running `vagrant up`, following packages are install and
+stack user is created on the VM.
 
 ```sh
-vagrant up
+apt-get install -y python python-pip bridge-utils
+apt-get install -y git git-review
 ```
 
 ### Get DevStack
@@ -102,7 +135,7 @@ If you do not install all of tools, you run each of scripts in
   * dein.sh: setup and install dein (vim package manager).
 1. util: add utility function for your shell by including in `.bashrc`.
   * wf.sh: word find function for search target word from files in current.
-    child dirs 
+    child dirs
 
 ```
 /vagrant
@@ -118,9 +151,10 @@ If you do not install all of tools, you run each of scripts in
     └── wf.sh
 ```
 
-### Install DevStack
+### Build OpenStack Environment
 
-Finally, create your local.conf and run `stack.sh` for installation.
+Finally, create your local.conf and run `stack.sh` under cloned `devstack`
+directory.
 
 ```sh
 $ cd devstack

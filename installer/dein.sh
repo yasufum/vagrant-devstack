@@ -7,4 +7,6 @@ curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh >
 sh ${HOME}/installer.sh ${DEIN_DIR}
 rm ${HOME}/installer.sh
 
-cp -i ${SCRIPT_DIR}/vimrc_sample.txt ${HOME}/.vimrc
+# setup nvim config
+mkdir -p ${HOME}/.config/nvim
+cp -i ${SCRIPT_DIR}/conf_nvim.txt ${HOME}/.config/nvim/init.vim

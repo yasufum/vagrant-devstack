@@ -7,10 +7,10 @@ sudo apt-get update -y
 sudo apt-get install neovim -y
 
 sudo apt-get install python3-dev python3-pip -y
-sudo pip install neovim
-sudo pip3 install neovim
+pip install neovim
+pip3 install neovim
 
-sudo pip install jedi
-sudo pip3 install jedi
+pip install jedi
+pip3 install jedi
 
 pip3 install -U pip3

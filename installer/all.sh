@@ -14,6 +14,9 @@ source ${BASE_DIR}/nvim.sh
 echo "Install dein for management vim packages"
 source ${BASE_DIR}/dein.sh
 
+echo "Install docker"
+source ${BASE_DIR}/docker.sh
+
 echo "PATH=$PATH:/sbin" >> ${HOME}/.bashrc
 echo "source ${UTIL_DIR}/wf.sh" >> ${HOME}/.bashrc
 

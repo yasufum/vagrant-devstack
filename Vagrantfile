@@ -13,7 +13,7 @@ HOST_IP = "192.168.33.11"
 
 # Define hypervisor.
 # Currently, "virtualbox" or "libvirt" is supported as default.
-hv_type = "virtualbox"
+hv_type = "libvirt"
 
 # Vagrant boxes
 # [NOTE] You can use any of box by changing 'box' attribute or
@@ -34,9 +34,11 @@ box_list = []
 `vagrant box list`.each_line {|l|
   box_list << l.split(" ")[0]
 }
+
 # If you don't have the box, download it.
 if not (box_list.include? my_box)
-  `vagrant box add #{my_box}`
+  puts "There is no box '#{my_box}' for '#{hv_type}'"
+  puts "Run 'vagrant box add #{my_box}' first"
 end
 
 Vagrant.configure("2") do |config|

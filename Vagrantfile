@@ -117,7 +117,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y python python-pip bridge-utils
+    apt-get install -y python3 python3-pip bridge-utils
     apt-get install -y git git-review
     useradd -s /bin/bash -d /opt/stack -m stack
     echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack

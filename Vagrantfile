@@ -8,26 +8,38 @@
 
 # VM params
 NOF_CPU = 2
-MEMSIZE = 6  # GB
+MEMSIZE = 4  # GB
 HOST_IP = "192.168.33.11"
+
+# Vagrant boxes
+# NOTE: Box can be found at https://app.vagrantup.com/boxes/search
+VAGRANT_BOXES = {
+  virtualbox: [
+    {box: "ubuntu/xenial64", dist_ver: "16.04"},
+    {box: "ubuntu/bionic64", dist_ver: "18.04"}
+  ],
+  libvirt: [
+    {box: "generic/ubuntu1804", dist_ver: "18.04"},
+    {box: "yk0/ubuntu-xenial", dist_ver: "16.04"}
+  ]
+}
 
 # Define hypervisor.
 # Currently, "virtualbox" or "libvirt" is supported as default.
-hv_type = "libvirt"
+my_provider = "virtualbox"
+dist_ver = "18.04"
 
-# Vagrant boxes
-# [NOTE] You can use any of box by changing 'box' attribute or
-#        other entries of hypervisor.
-#        Please refer to https://app.vagrantup.com/boxes/search
-#        for available box list.
-#        'provider' attribute must be correspond to 'hv_type'.
-hv_types = {
-  virtualbox: {provider: "virtualbox", box: "ubuntu/xenial64"},
-  libvirt: {provider: "libvirt", box: "yk0/ubuntu-xenial"}
-}
+# Although you can use any of vagrant box, such as 'ubuntu/xenial64',
+# it is decided from `VAGRANT_BOXES` with `my_provider` and `dist_ver`.
+my_box = nil
 
-my_box = hv_types[hv_type.to_sym][:box]
-my_provider = hv_types[hv_type.to_sym][:provider]
+if not my_box
+  VAGRANT_BOXES[my_provider.to_sym].each do |vbox|
+    if vbox[:dist_ver] == dist_ver
+      my_box = vbox[:box]
+    end
+  end
+end
 
 # Check if you have already downloaded target box.
 box_list = []
@@ -37,7 +49,7 @@ box_list = []
 
 # If you don't have the box, download it.
 if not (box_list.include? my_box)
-  puts "There is no box '#{my_box}' for '#{hv_type}'"
+  puts "There is no box '#{my_box}' for '#{my_provider}'"
   puts "Run 'vagrant box add #{my_box}' first"
 end
 

@@ -5,9 +5,6 @@
 BASE_DIR=/vagrant/installer
 UTIL_DIR=/vagrant/util
 
-sudo apt update
-sudo apt upgrade -y
-
 echo "PATH=$PATH:/sbin" >> ${HOME}/.bashrc
 echo "source ${UTIL_DIR}/wf.sh" >> ${HOME}/.bashrc
 

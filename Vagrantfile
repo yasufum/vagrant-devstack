@@ -129,6 +129,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
+    apt-upgrade -y
     apt-get install -y python3 python3-pip bridge-utils
     apt-get install -y git git-review
     useradd -s /bin/bash -d /opt/stack -m stack

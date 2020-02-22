@@ -60,17 +60,6 @@ let g:lsp_async_completion = 1
 " Initialize plugin system
 call plug#end()
 
-" Required:
-filetype plugin indent on
-syntax enable
-
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-
-"End dein Scripts-------------------------
-
 syntax on
 set shiftwidth=4
 set tabstop=4

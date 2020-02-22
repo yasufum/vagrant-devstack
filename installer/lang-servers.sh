@@ -6,7 +6,7 @@ bash_ls() {
 }
 
 py_ls() {
-    pip3 install python-language-server
+    pip3 install 'python-language-server[all]'
 }
 
 bash_ls

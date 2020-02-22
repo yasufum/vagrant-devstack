@@ -23,4 +23,6 @@ source ${BASE_DIR}/lang-servers.sh
 echo "Install devstack and related packages"
 source ${BASE_DIR}/devstack.sh
 
+source ${BASE_DIR}/ops-tools.sh
+
 echo "Done!"

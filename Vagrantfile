@@ -6,10 +6,13 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
-# VM params
+# VM params. 2 CPUs and 8GB memory are the minimum requirements.
 NOF_CPU = 2
-MEMSIZE = 4  # GB
-HOST_IP = "192.168.33.11"
+MEMSIZE = 8  # GB
+
+# You can have several network interfaces.
+PRIVATE_IP = ["192.168.33.11"]
+PUBLIC_IP = []
 
 # Vagrant boxes
 # NOTE: Box can be found at https://app.vagrantup.com/boxes/search
@@ -18,7 +21,7 @@ VAGRANT_BOXES = {
     {box: "ubuntu/xenial64", dist_ver: "16.04"},
     {box: "ubuntu/bionic64", dist_ver: "18.04"}
   ],
-  libvirt: [
+  libvirt: [  # It might not work
     {box: "generic/ubuntu1804", dist_ver: "18.04"},
     {box: "yk0/ubuntu-xenial", dist_ver: "16.04"}
   ]
@@ -84,14 +87,19 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  host_ip = HOST_IP
-  config.vm.network "private_network", ip: host_ip
+  PRIVATE_IP.each do |ipaddr|
+    config.vm.network "private_network", ip: ipaddr
+  end
+
+  PUBLIC_IP.each do |ipaddr|
+    config.vm.network "public_network", ip: ipaddr
+  end
 
   if Vagrant.has_plugin?("vagrant-proxyconf")
     config.proxy.http = ENV["http_proxy"]
     config.proxy.https = ENV["https_proxy"]
     if ENV["no_proxy"] != ""
-      config.proxy.no_proxy = ENV["no_proxy"] + "," + host_ip
+      config.proxy.no_proxy = ENV["no_proxy"] + "," + PRIVATE_IP.join(",")
     end
   end
 

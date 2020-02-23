@@ -1,3 +1,4 @@
+Vagrantfile
 .vagrant/*
 *.log
 helper/git_setup.sh

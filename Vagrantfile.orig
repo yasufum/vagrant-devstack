@@ -9,6 +9,7 @@
 # VM params. 2 CPUs and 8GB memory are the minimum requirements.
 NOF_CPU = 2
 MEMSIZE = 8  # GB
+DISK_SIZE = 50  # GB
 
 # You can have several network interfaces.
 PRIVATE_IP = ["192.168.33.11"]
@@ -101,6 +102,10 @@ Vagrant.configure("2") do |config|
     if ENV["no_proxy"] != ""
       config.proxy.no_proxy = ENV["no_proxy"] + "," + PRIVATE_IP.join(",")
     end
+  end
+
+  if Vagrant.has_plugin?("vagrant-disksize")
+    config.disksize.size = '#{DISK_SIZE}GB'
   end
 
   # Create a public network, which generally matched to bridged network.

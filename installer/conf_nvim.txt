@@ -45,8 +45,8 @@ endif
 
 set number
 set expandtab
-set ts=4 sw=4
-set softtabstop=4
+set ts=2 sw=2
+set softtabstop=2
 
 " Status Line
 set showcmd
@@ -61,6 +61,10 @@ set hlsearch
 set showmatch
 set matchtime=1  " set to 100[msec], default is 5
 set backspace=2
+
+augroup fileTypeIndent
+  autocmd BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+augroup END
 
 " Assign jj as ESC in insert mode.
 inoremap <silent> jj <ESC>

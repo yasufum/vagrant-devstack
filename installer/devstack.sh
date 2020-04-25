@@ -9,3 +9,4 @@ git clone https://opendev.org/openstack/devstack.git
 # Install generate-subunit
 # It is required packages from stack.sh
 pip3 install -U os-testr
+pip3 install tox

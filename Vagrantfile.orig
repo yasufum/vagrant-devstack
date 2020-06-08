@@ -20,7 +20,8 @@ PUBLIC_IP = []
 VAGRANT_BOXES = {
   virtualbox: [
     {box: "ubuntu/xenial64", dist_ver: "16.04"},
-    {box: "ubuntu/bionic64", dist_ver: "18.04"}
+    {box: "ubuntu/bionic64", dist_ver: "18.04"},
+    {box: "ubuntu/focal64", dist_ver: "20.04"}
   ],
   libvirt: [  # It might not work
     {box: "generic/ubuntu1804", dist_ver: "18.04"},

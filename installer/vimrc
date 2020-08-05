@@ -118,7 +118,7 @@ if executable('pyls')
                 \   'pycodestyle': {'enabled': v:false},
                 \   'jedi_definition': {'follow_imports': v:true, 'follow_builtin_imports': v:true},}}}
                 \})
-    autocmd BufWritePre *.py LspDocumentFormatSync
+    "autocmd BufWritePre *.py LspDocumentFormatSync
     autocmd FileType python call s:configure_lsp()
 endif
 
@@ -128,6 +128,6 @@ if executable('bash-language-server')
         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
         \ 'whitelist': ['sh'],
         \ })
-    autocmd BufWritePre *.sh LspDocumentFormatSync
+    "autocmd BufWritePre *.sh LspDocumentFormatSync
     autocmd FileType sh call s:configure_lsp()
 endif

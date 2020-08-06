@@ -50,6 +50,9 @@ Plug 'plasticboy/vim-markdown'
 
 Plug 'dense-analysis/ale'
 
+Plug 'vim-scripts/taglist.vim'
+let Tlist_Use_Right_Window = 1
+
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'

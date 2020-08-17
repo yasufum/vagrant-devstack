@@ -8,13 +8,24 @@ It is planned to support libvirt or other hypervisors.
 
 ## Getting Started
 
-Launching a VM.
+Before launching a VM, you shold install a plugin ``vagrant-disksize``
+for expanding a size of volume of VM. It is because the default size
+is not enough for deploying devstack environment.
 
 ```sh
+$ vagrant plugin install vagrant-disksize
+```
+
+Then, setup ``Vagrantfile`` and Launch a VM with ``vagrant``.
+This tool provides a template ``Vagrantfile.orig``, so you can use it
+if you launch the VM with minimum required configuration.
+
+```sh
+$ cp Vagrantfile.orig Vagrantfile
 $ vagrant up
 ```
 
-If you consider using `git review` inside the VM,
+If you consider using `git review` for developing inside the VM,
 you can export your git environment on host.
 `helper/git_setup_gen.sh` is used for generating a script
 `helper/git_setup.sh` to setup your minimum git environment on the VM.
@@ -53,8 +64,6 @@ $ cp samples/local.conf .
 $ ./stack.sh
 ```
 
-Japanese README_ja.md is [here](doc/README_ja.md).
-
 ## How to use
 
 This tool is automatically do installation before `Create local.conf`
@@ -69,14 +78,20 @@ First of all, you need to download VirtualBox from
 
 You also need to install
 [vagrant](https://www.vagrantup.com/)
-and `vagrant-proxyconf` plugin if you are in proxy environment.
+and its plugins.
+``vagrant-disksize`` is for expanding a size of volume of VM.
+It is because the default size is not enough for deploying devstack
+environment.
+
+```sh
+$ vagrant plugin install vagrant-disksize
+```
+
+Install `vagrant-proxyconf` plugin if you are in proxy environment.
 
 ```sh
 $ vagrant plugin install vagrant-proxyconf
 ```
-
-This tool downloads and uses xenial64 of official box from Ubuntu.
-If you use other box, you need to edit Vagrantfile.
 
 Now, you are ready to run Vagrantfile.
 
@@ -88,16 +103,20 @@ steps for installation.
 You should edit params to be appropriate for your environment.
 On the other hand, you should not edit installation in provision
 seciton at the last part.
+This tool downloads and uses xenial64 of official box from Ubuntu.
 
 ```ruby
 # Vagrantfile
 
-# VM params
-NOF_CPU = 2
-MEMSIZE = 6  # GB
-
+# VM params. 2 CPUs and 8GB memory are the minimum requirements.
+NOF_CPU = 8
+MEMSIZE = 18  # GB
+DISK_SIZE = 50  # GB
+...
 # Define hypervisor.
-hv_type = "virtualbox"
+# Currently, "virtualbox" or "libvirt" is supported as default.
+my_provider = "virtualbox"
+dist_ver = "18.04"
 ```
 
 By running `vagrant up`, following packages are install and
@@ -114,41 +133,14 @@ After VM is launched, login and install DevStack.
 
 You can setup and get for devstack and other tools
 by running `all.sh` support scripts.
+If you do not install all of tools, you run each of scripts in
+`/vagrant/installer/`.
 
 ```sh
 $ vagrant ssh
 # Change to stack user
 $ sudo su - stack
 $ /vagrant/installer/all.sh # run all of support scripts
-```
-
-There are three categories of support scripts
-in `/vagrant/` on the VM.
-If you do not install all of tools, you run each of scripts in
-`/vagrant/installer/`.
-
-1. helper: add/delete stack user to clear your installation.
-1. install: change configurations for installation and do.
-  * all.sh: install all of packages (no need if you run each installon
-    by yourself).
-  * devstack.sh: get and setup devstack (NOT installed yet).
-  * dein.sh: setup and install dein (vim package manager).
-1. util: add utility function for your shell by including in `.bashrc`.
-  * wf.sh: word find function for search target word from files in current.
-    child dirs
-
-```
-/vagrant
-├── helper
-│   ├── add_stack_user.sh
-│   └── del_user.sh
-├── installer
-│   ├── all.sh
-│   ├── dein.sh
-│   ├── devstack.sh
-│   └── vimrc_sample.txt
-└── util
-    └── wf.sh
 ```
 
 ### Build OpenStack Environment

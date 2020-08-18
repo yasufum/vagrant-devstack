@@ -1,5 +1,5 @@
 #!/bin/sh
 
 sudo add-apt-repository ppa:jonathonf/vim -y
-sudo apt update -y
-sudo apt install vim -y
+sudo apt-get update -y
+sudo apt-get install vim -y

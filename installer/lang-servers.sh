@@ -1,7 +1,7 @@
 #!/bin/sh
 
 bash_ls() {
-    sudo apt install npm -y
+    sudo apt-get install npm -y
     sudo npm i -g bash-language-server
 }
 

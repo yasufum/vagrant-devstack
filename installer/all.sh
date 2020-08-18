@@ -16,10 +16,6 @@ source ${BASE_DIR}/vim8.sh
 source ${BASE_DIR}/vim-plug.sh
 source ${BASE_DIR}/lang-servers.sh
 
-#echo "Install neovim and dein for management vim packages"
-#source ${BASE_DIR}/nvim.sh
-#source ${BASE_DIR}/dein.sh
-
 
 echo "Install devstack and related packages"
 source ${BASE_DIR}/devstack.sh

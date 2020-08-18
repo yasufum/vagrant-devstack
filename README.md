@@ -1,16 +1,18 @@
 # vagrant-devstack
 
+
 ## What is this
 
-Vagrantfile for install devstack on
+Vagrantfile and helper scripts for install devstack on a VM created by
 [VirtualBox](https://www.virtualbox.org/).
-It is planned to support libvirt or other hypervisors.
+
 
 ## Getting Started
 
-Before launching a VM, you shold install a plugin ``vagrant-disksize``
-for expanding a size of volume of VM. It is because the default size
-is not enough for deploying devstack environment.
+Before launching your VM, you shold install plugin ``vagrant-disksize``
+for expanding size of volume of VM. It is because the default size of
+boxes provided from ubuntu, 10GB or so, is not enough for deploying
+devstack environment.
 
 ```sh
 $ vagrant plugin install vagrant-disksize
@@ -18,24 +20,25 @@ $ vagrant plugin install vagrant-disksize
 
 Then, setup ``Vagrantfile`` and Launch a VM with ``vagrant``.
 This tool provides a template ``Vagrantfile.orig``, so you can use it
-if you launch the VM with minimum required configuration.
+as it is if you launch the VM with minimum required configuration, or
+customize it for your usage.
 
 ```sh
 $ cp Vagrantfile.orig Vagrantfile
 $ vagrant up
 ```
 
-If you consider using `git review` for developing inside the VM,
-you can export your git environment on host.
+You should export your git environment on host to the VM for developing
+your features on the VM and upload it with `git review`.
 `helper/git_setup_gen.sh` is used for generating a script
-`helper/git_setup.sh` to setup your minimum git environment on the VM.
+`helper/git_setup.sh` to upload your minimum git environment on the VM.
 
 ```sh
 # Generate helper/git_setup.sh
 $ sh helper/git_setup_gen.sh
 ```
 
-Login and Change to stack user.
+Login and Change to stack user next.
 
 ```sh
 $ vagrant ssh
@@ -63,6 +66,7 @@ $ cp samples/local.conf .
 # Edit local.conf and run stack.sh
 $ ./stack.sh
 ```
+
 
 ## How to use
 

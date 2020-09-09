@@ -14,6 +14,9 @@ DISK_SIZE = 50  # GB
 # You can have several network interfaces.
 PRIVATE_IP = ["192.168.33.11"]
 PUBLIC_IP = []
+FWD_PORT_LIST = [
+  {"guest" => 80, "host" => 10080}
+]
 
 # Vagrant boxes
 # NOTE: Box can be found at https://app.vagrantup.com/boxes/search
@@ -95,6 +98,12 @@ Vagrant.configure("2") do |config|
 
   PUBLIC_IP.each do |ipaddr|
     config.vm.network "public_network", ip: ipaddr
+  end
+
+  FWD_PORT_LIST.each do |fp|
+    ["tcp", "udp"].each do |prot|
+      config.vm.network "forwarded_port", guest: fp["guest"], host: fp["host"], auto_correct: true, protocol: prot
+    end
   end
 
   if Vagrant.has_plugin?("vagrant-proxyconf")

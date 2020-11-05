@@ -7,6 +7,10 @@ UTIL_DIR=/vagrant/util
 
 echo "PATH=$PATH:/sbin" >> ${HOME}/.bashrc
 
+echo "Install python3"
+source ${BASE_DIR}/python3.sh
+
+
 echo "Install docker"
 source ${BASE_DIR}/docker.sh
 

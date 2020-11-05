@@ -2,10 +2,15 @@
 
 # Run this script inside the VM
 
+if [ ! $HOME = '/opt/stack' ]; then
+    echo "Error: You should run this script as 'stack' user!"
+    exit
+fi
+
 BASE_DIR=/vagrant/installer
 UTIL_DIR=/vagrant/util
 
-echo "PATH=$PATH:/sbin" >> ${HOME}/.bashrc
+echo "export PATH=\$HOME/.local/bin:\$PATH:/sbin" >> ${HOME}/.bashrc
 
 echo "Install python3"
 source ${BASE_DIR}/python3.sh

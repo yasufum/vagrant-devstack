@@ -62,6 +62,9 @@ Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 let g:lsp_async_completion = 1
 
+Plug 'tyru/current-func-info.vim'
+Plug 'yasufum/vim-os-unittestr'
+
 " Initialize plugin system
 call plug#end()
 

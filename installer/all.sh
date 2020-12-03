@@ -35,4 +35,7 @@ source ${BASE_DIR}/ops-tools.sh
 git clone https://github.com/yasufum/bash_utils.git
 echo "source ${HOME}/bash_utils/wf.sh" >> ${HOME}/.bashrc
 
+echo "Setup tacker"
+source ${BASE_DIR}/setup_tacker.sh
+
 echo "Done!"

@@ -69,10 +69,11 @@ Plug 'yasufum/vim-os-unittestr'
 call plug#end()
 
 syntax on
+set number
+set relativenumber
 set shiftwidth=4
 set tabstop=4
 set expandtab
-set number
 set showcmd
 set showmatch
 set hlsearch
@@ -85,7 +86,11 @@ set autoindent
 set visualbell t_vb=
 set noerrorbells
 
-colorscheme delek
+set path+=**
+set wildmenu
+
+"colorscheme delek
+colorscheme railscasts
 
 nnoremap ; <CR>
 nnoremap <C-n> :NERDTreeToggle<CR>

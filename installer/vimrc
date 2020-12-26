@@ -89,8 +89,8 @@ set noerrorbells
 set path+=**
 set wildmenu
 
-"colorscheme delek
-colorscheme railscasts
+colorscheme delek
+"colorscheme railscasts
 
 nnoremap ; <CR>
 nnoremap <C-n> :NERDTreeToggle<CR>

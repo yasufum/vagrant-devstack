@@ -94,6 +94,10 @@ colorscheme railscasts
 
 nnoremap ; <CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
+" enable line numbers
+let NERDTreeShowLineNumbers=1
+" make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
 
 """ Open vimrc from ':Conf' command.
 function! s:open_vimrc() abort

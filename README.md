@@ -18,13 +18,12 @@ devstack environment.
 $ vagrant plugin install vagrant-disksize
 ```
 
-Then, setup ``Vagrantfile`` and Launch a VM with ``vagrant``.
-This tool provides a template ``Vagrantfile.orig``, so you can use it
-as it is if you launch the VM with minimum required configuration, or
-customize it for your usage.
+Then, setup your ``machines.yml`` in which parameters of VMs you will deploy
+are defined from ``samples/machines.yml`` before launching VMs.
 
 ```sh
-$ cp Vagrantfile.orig Vagrantfile
+$ cp samples/machines.yml .
+$ YOUR_FAVORITE_EDITOR machines.yml
 $ vagrant up
 ```
 
@@ -91,7 +90,7 @@ environment.
 $ vagrant plugin install vagrant-disksize
 ```
 
-Install `vagrant-proxyconf` plugin if you are in proxy environment.
+Install ``vagrant-proxyconf`` plugin if you are in proxy environment.
 
 ```sh
 $ vagrant plugin install vagrant-proxyconf
@@ -99,55 +98,49 @@ $ vagrant plugin install vagrant-proxyconf
 
 Now, you are ready to run Vagrantfile.
 
-### Run Vagrantfile
+### Run vagrant with Vagrantfile
 
 Vagrantfile defines params for the VM (cpu, memory, etc.) and
 steps for installation.
 
-You should edit params to be appropriate for your environment.
-On the other hand, you should not edit installation in provision
-seciton at the last part.
-This tool downloads and uses xenial64 of official box from Ubuntu.
+You should edit parameters in `machines.yml` to be appropriate for your
+environment.
 
-```ruby
-# Vagrantfile
+```yaml
+machines:
 
-# VM params. 2 CPUs and 8GB memory are the minimum requirements.
-NOF_CPU = 8
-MEMSIZE = 18  # GB
-DISK_SIZE = 50  # GB
-...
-# Define hypervisor.
-# Currently, "virtualbox" or "libvirt" is supported as default.
-my_provider = "virtualbox"
-dist_ver = "18.04"
+  - name: controller
+    provider: virtualbox
+    box: ubuntu/focal64
+    nof_cpus: 4
+    mem_size: 8
+    disk_size: 50
+    private_ips:
+      - 192.168.33.11
+    public_ips:
+    fwd_port_list:
+      - guest: 80
+        host: 10080
 ```
 
-By running `vagrant up`, following packages are install and
-stack user is created on the VM.
+By running `vagrant up`, basic packages, such as python3 or git,
+are install and stack user is created on the VM.
 
-```sh
-apt-get install -y python python-pip bridge-utils
-apt-get install -y git git-review
-```
-
-### Get DevStack
+### Build OpenStack Environment
 
 After VM is launched, login and install DevStack.
 
-You can setup and get for devstack and other tools
-by running `all.sh` support scripts.
-If you do not install all of tools, you run each of scripts in
+You can setup and devstack and tools for building OpenStack environment
+at once by running `all.sh` installer scripts.
+If you do not install all of tools, you can run each of scripts in
 `/vagrant/installer/`.
 
 ```sh
 $ vagrant ssh
 # Change to stack user
 $ sudo su - stack
-$ /vagrant/installer/all.sh # run all of support scripts
+$ /vagrant/installer/all.sh # run all of scripts
 ```
-
-### Build OpenStack Environment
 
 Finally, create your local.conf and run `stack.sh` under cloned `devstack`
 directory.

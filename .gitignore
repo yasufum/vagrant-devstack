@@ -1,4 +1,5 @@
-Vagrantfile
+./machines.yml
+
 .vagrant/*
 *.log
 helper/git_setup.sh

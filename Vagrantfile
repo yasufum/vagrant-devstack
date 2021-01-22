@@ -6,48 +6,13 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
-# Define hypervisor.
-# Currently, "virtualbox" or "libvirt" is supported as default.
-PROVIDER = "virtualbox"
-DIST_VER = "20.04"
+require "yaml"
+load "lib/machine.rb"
 
-# VM params. 2 CPUs and 8GB memory are the minimum requirements.
-NOF_CPU = 2
-MEMSIZE = 8  # GB
-DISK_SIZE = 50  # GB
-
-# You can have several network interfaces.
-PRIVATE_IP = ["192.168.33.11"]
-PUBLIC_IP = []
-FWD_PORT_LIST = [
-  {"guest" => 80, "host" => 10080}
-]
-
-# Vagrant boxes
-# NOTE: Box can be found at https://app.vagrantup.com/boxes/search
-VAGRANT_BOXES = {
-  virtualbox: [
-    {box: "ubuntu/xenial64", dist_ver: "16.04"},
-    {box: "ubuntu/bionic64", dist_ver: "18.04"},
-    {box: "ubuntu/focal64", dist_ver: "20.04"}
-  ],
-  libvirt: [  # It might not work
-    {box: "generic/ubuntu1804", dist_ver: "18.04"},
-    {box: "yk0/ubuntu-xenial", dist_ver: "16.04"}
-  ]
-}
-
-# Although you can use any of vagrant box, such as 'ubuntu/xenial64',
-# it is decided from `VAGRANT_BOXES` with `PROVIDER` and `DIST_VER`.
-my_box = nil
-
-if not my_box
-  VAGRANT_BOXES[PROVIDER.to_sym].each do |vbox|
-    if vbox[:dist_ver] == DIST_VER
-      my_box = vbox[:box]
-    end
-  end
-end
+y = YAML.load(open("machines.yml"))
+m = y["machines"][0]
+machine = Machine.new(m["provider"], m["box"], m["nof_cpus"], m["mem_size"], m["disk_size"],
+    m["private_ips"], m["public_ips"], m["fwd_port_list"])
 
 # Check if you have already downloaded target box.
 box_list = []
@@ -56,25 +21,27 @@ box_list = []
 }
 
 # If you don't have the box, download it.
-if not (box_list.include? my_box)
-  puts "There is no box '#{my_box}' for '#{PROVIDER}'"
-  puts "Run 'vagrant box add #{my_box}' first"
+if not (box_list.include? machine.box)
+  puts "There is no box '#{machine.box}' for '#{machine.provider}'"
+  puts "Run 'vagrant box add #{machine.box}' first"
 end
 
 Vagrant.configure("2") do |config|
-  config.vm.box = my_box
+  config.vm.box = machine.box
 
   # config.vm.box_check_update = false
 
-  PRIVATE_IP.each do |ipaddr|
+  machine.pri_ips.each do |ipaddr|
     config.vm.network "private_network", ip: ipaddr
   end
 
-  PUBLIC_IP.each do |ipaddr|
-    config.vm.network "public_network", ip: ipaddr
+  if machine.pub_ips != nil
+    machine.pub_ips.each do |ipaddr|
+      config.vm.network "public_network", ip: ipaddr
+    end
   end
 
-  FWD_PORT_LIST.each do |fp|
+  machine.fwd_port_list.each do |fp|
     ["tcp", "udp"].each do |prot|
       config.vm.network "forwarded_port", guest: fp["guest"], host: fp["host"], auto_correct: true, protocol: prot
     end
@@ -84,12 +51,12 @@ Vagrant.configure("2") do |config|
     config.proxy.http = ENV["http_proxy"]
     config.proxy.https = ENV["https_proxy"]
     if ENV["no_proxy"] != ""
-      config.proxy.no_proxy = ENV["no_proxy"] + "," + PRIVATE_IP.join(",")
+      config.proxy.no_proxy = ENV["no_proxy"] + "," + machine.pri_ips.join(",")
     end
   end
 
   if Vagrant.has_plugin?("vagrant-disksize")
-    config.disksize.size = "#{DISK_SIZE}GB"
+    config.disksize.size = "#{machine.disk_size}GB"
   end
 
   # TODO(yasufum) This configuration reported in [1] is required to avoid
@@ -97,21 +64,21 @@ Vagrant.configure("2") do |config|
   # VM. This issue is only happened on focal, and not for bionic and xenial.
   # Remove this config after the problem is fixed in the focal image.
   # [1] https://bugs.launchpad.net/cloud-images/+bug/1829625
-  if my_box == "ubuntu/focal64"
+  if machine.box == "ubuntu/focal64"
     config.vm.provider 'virtualbox' do |v|
       v.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
       v.customize ["modifyvm", :id, "--uartmode1", "file", "./ttyS0.log"]
     end
   end
 
-  config.vm.provider PROVIDER do |vb|
+  config.vm.provider machine.provider do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
     #vb.customize ["modifyhd", "disk id", "--resize", "size in megabytes"]
-    vb.cpus = "#{NOF_CPU}"
-    vb.memory = "#{MEMSIZE * 1024}"
+    vb.cpus = "#{machine.nof_cpus}"
+    vb.memory = "#{machine.mem_size * 1024}"
   end
 
   config.vm.provision "shell", inline: <<-SHELL

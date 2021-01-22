@@ -1,18 +1,35 @@
-class Machine
-  attr_reader :provider, :box, :nof_cpus, :mem_size, :disk_size,
-    :pri_ips, :pub_ips, :fwd_port_list
+require "yaml"
 
-  def initialize(provider="virtualbox", box="ubuntu/focal64",
-                 nof_cpus=2, mem_size=4, disk_size=10,
-                 pri_ips=["192.168.33.11"], pub_ips=nil, fwd_port_list=nil)
-    @provider = provider
-    @box = box
-    @nof_cpus = nof_cpus
-    @mem_size = mem_size
-    @disk_size = disk_size
-    @pri_ips = pri_ips
-    @pub_ips = pub_ips
-    @fwd_port_list = fwd_port_list
+class Machines < Array
+
+  class Machine
+    attr_reader :name, :provider, :box, :nof_cpus, :mem_size, :disk_size,
+      :pri_ips, :pub_ips, :fwd_port_list
+
+    def initialize(
+      name="controller", provider="virtualbox", box="ubuntu/focal64",
+      nof_cpus=2, mem_size=4, disk_size=10,
+      pri_ips=["192.168.33.11"], pub_ips=nil, fwd_port_list=nil)
+      @name = name
+      @provider = provider
+      @box = box
+      @nof_cpus = nof_cpus
+      @mem_size = mem_size
+      @disk_size = disk_size
+      @pri_ips = pri_ips
+      @pub_ips = pub_ips
+      @fwd_port_list = fwd_port_list
+    end
+  end
+
+  def initialize(yaml_file)
+    y = YAML.load(yaml_file)
+    y["machines"].each_with_index do |m, idx|
+      self[idx] = Machine.new(
+        m["name"], m["provider"], m["box"],
+        m["nof_cpus"], m["mem_size"], m["disk_size"],
+        m["private_ips"], m["public_ips"], m["fwd_port_list"])
+    end
   end
 
 end

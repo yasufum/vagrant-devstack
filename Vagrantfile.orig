@@ -8,8 +8,8 @@
 
 # Define hypervisor.
 # Currently, "virtualbox" or "libvirt" is supported as default.
-my_provider = "virtualbox"
-dist_ver = "20.04"
+PROVIDER = "virtualbox"
+DIST_VER = "20.04"
 
 # VM params. 2 CPUs and 8GB memory are the minimum requirements.
 NOF_CPU = 2
@@ -38,12 +38,12 @@ VAGRANT_BOXES = {
 }
 
 # Although you can use any of vagrant box, such as 'ubuntu/xenial64',
-# it is decided from `VAGRANT_BOXES` with `my_provider` and `dist_ver`.
+# it is decided from `VAGRANT_BOXES` with `PROVIDER` and `DIST_VER`.
 my_box = nil
 
 if not my_box
-  VAGRANT_BOXES[my_provider.to_sym].each do |vbox|
-    if vbox[:dist_ver] == dist_ver
+  VAGRANT_BOXES[PROVIDER.to_sym].each do |vbox|
+    if vbox[:dist_ver] == DIST_VER
       my_box = vbox[:box]
     end
   end
@@ -57,41 +57,15 @@ box_list = []
 
 # If you don't have the box, download it.
 if not (box_list.include? my_box)
-  puts "There is no box '#{my_box}' for '#{my_provider}'"
+  puts "There is no box '#{my_box}' for '#{PROVIDER}'"
   puts "Run 'vagrant box add #{my_box}' first"
 end
 
 Vagrant.configure("2") do |config|
-  #config.ssh.insert_key = true
-  #config.ssh.username = "ubuntu"
-  #config.ssh.password = "48a16ff5a87dbd49b28864f6"
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  #config.vm.box = "ubuntu/trusty64"
   config.vm.box = my_box
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
   PRIVATE_IP.each do |ipaddr|
     config.vm.network "private_network", ip: ipaddr
   end
@@ -118,21 +92,6 @@ Vagrant.configure("2") do |config|
     config.disksize.size = "#{DISK_SIZE}GB"
   end
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-
   # TODO(yasufum) This configuration reported in [1] is required to avoid
   # timeout for ssh login to focal64 because of setting up public key in the
   # VM. This issue is only happened on focal, and not for bionic and xenial.
@@ -145,7 +104,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.provider my_provider do |vb|
+  config.vm.provider PROVIDER do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
@@ -154,13 +113,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = "#{NOF_CPU}"
     vb.memory = "#{MEMSIZE * 1024}"
   end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
 
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-upgrade -y

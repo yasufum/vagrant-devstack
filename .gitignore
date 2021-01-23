@@ -1,5 +1,5 @@
-./machines.yml
+/machines.yml
+/helper/git_setup.sh
 
-.vagrant/*
+/.vagrant/*
 *.log
-helper/git_setup.sh

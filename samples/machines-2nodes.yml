@@ -12,6 +12,8 @@ machines:
     fwd_port_list:
       - guest: 80
         host: 10080
+      - guest: 6081
+        host: 6081
 
   - name: compute
     provider: virtualbox
@@ -25,3 +27,5 @@ machines:
     fwd_port_list:
       - guest: 80
         host: 10081
+      - guest: 6081
+        host: 6081

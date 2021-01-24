@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
       machine.fwd_port_list.each do |fp|
         ["tcp", "udp"].each do |prot|
           server.vm.network "forwarded_port", guest: fp["guest"], host: fp["host"],
-              auto_correct: false, protocol: prot
+              auto_correct: true, protocol: prot
         end
       end
 

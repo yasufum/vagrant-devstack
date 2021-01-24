@@ -28,6 +28,7 @@ Vagrant.configure("2") do |config|
   machines.each do |machine|
     config.vm.define machine.name do |server|
       server.vm.box = machine.box
+      server.vm.hostname = machine.name
 
       # server.vm.box_check_update = false
 
@@ -43,7 +44,8 @@ Vagrant.configure("2") do |config|
 
       machine.fwd_port_list.each do |fp|
         ["tcp", "udp"].each do |prot|
-          server.vm.network "forwarded_port", guest: fp["guest"], host: fp["host"], auto_correct: true, protocol: prot
+          server.vm.network "forwarded_port", guest: fp["guest"], host: fp["host"],
+              auto_correct: false, protocol: prot
         end
       end
 

@@ -82,6 +82,10 @@ set encoding=utf-8
 set fileencoding=utf-8
 set termencoding=utf-8
 set autoindent
+set scrolloff=4
+set smartcase
+set textwidth=80
+set colorcolumn=+1
 
 set visualbell t_vb=
 set noerrorbells
@@ -92,11 +96,14 @@ set wildmenu
 colorscheme delek
 "colorscheme railscasts
 
+autocmd FileType python set textwidth=79
+autocmd FileType gitcommit set textwidth=72
+
 nnoremap ; <CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 " enable line numbers
 let NERDTreeShowLineNumbers=1
-" make sure relative line numbers are used
+" make sure relative line number is used
 autocmd FileType nerdtree setlocal relativenumber
 
 """ Open vimrc from ':Conf' command.

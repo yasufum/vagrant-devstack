@@ -2,7 +2,7 @@
 
 # Run this script inside the VM
 
-HOSTIP=192.168.33.11
+HOSTIP=${VAGRANT_PRIVATE_IP0}
 BASE_DIR=$(cd $(dirname $0); pwd)
 
 if [ ! $HOME = '/opt/stack' ]; then

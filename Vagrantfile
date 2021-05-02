@@ -32,12 +32,12 @@ Vagrant.configure("2") do |config|
 
       # server.vm.box_check_update = false
 
-      machine.pri_ips.each do |ipaddr|
+      machine.private_ips.each do |ipaddr|
         server.vm.network "private_network", ip: ipaddr
       end
 
-      if machine.pub_ips != nil
-        machine.pub_ips.each do |ipaddr|
+      if machine.public_ips != nil
+        machine.public_ips.each do |ipaddr|
           server.vm.network "public_network", ip: ipaddr
         end
       end
@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
         server.proxy.http = ENV["http_proxy"]
         server.proxy.https = ENV["https_proxy"]
         if ENV["no_proxy"] != ""
-          server.proxy.no_proxy = ENV["no_proxy"] + "," + machine.pri_ips.join(",")
+          server.proxy.no_proxy = ENV["no_proxy"] + "," + machine.private_ips.join(",")
         end
       end
 
@@ -86,6 +86,7 @@ Vagrant.configure("2") do |config|
       server.vm.provision "shell", inline: <<-SHELL
         useradd -s /bin/bash -d /opt/stack -m stack
         echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+        echo "export VAGRANT_PRIVATE_IP0=#{machine.private_ips[0]}" >> /opt/stack/.bashrc
       SHELL
 
     end

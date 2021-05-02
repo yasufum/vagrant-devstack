@@ -8,7 +8,6 @@ git clone https://opendev.org/openstack/tacker.git
 
 # Install generate-subunit
 # It is required packages from stack.sh
-hostip=192.168.33.11
-sed "s/^HOST_IP=127.0.0.1/HOST_IP=${hostip}/g" \
+sed "s/^HOST_IP=127.0.0.1/HOST_IP=${HOSTIP}/g" \
     ${HOME}/tacker/devstack/local.conf.example \
     > ${HOME}/devstack/local.conf

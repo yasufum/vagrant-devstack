@@ -38,7 +38,7 @@ echo "Install devstack and related packages"
 
 
 echo "Install optional tools"
-. ${BASE_DIR}/ops-tools.sh
+. ${BASE_DIR}/extras.sh
 git clone https://github.com/yasufum/bash_utils.git
 echo "source ${HOME}/bash_utils/wf.sh" >> ${HOME}/.bashrc
 

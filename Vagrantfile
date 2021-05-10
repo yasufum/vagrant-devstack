@@ -73,6 +73,10 @@ Vagrant.configure("2") do |config|
         end
       end
 
+      if machine.ssh_forward_x11 == true
+        server.ssh.forward_x11 = true
+      end
+
       server.vm.provider machine.provider do |vb|
       #   # Display the VirtualBox GUI when booting the machine
       #   vb.gui = true

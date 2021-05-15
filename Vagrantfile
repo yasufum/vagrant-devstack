@@ -26,9 +26,9 @@ end
 
 Vagrant.configure("2") do |config|
   machines.each do |machine|
-    config.vm.define machine.name do |server|
+    config.vm.define machine.hostname do |server|
       server.vm.box = machine.box
-      server.vm.hostname = machine.name
+      server.vm.hostname = machine.hostname
 
       # server.vm.box_check_update = false
 
@@ -44,7 +44,8 @@ Vagrant.configure("2") do |config|
 
       machine.fwd_port_list.each do |fp|
         ["tcp", "udp"].each do |prot|
-          server.vm.network "forwarded_port", guest: fp["guest"], host: fp["host"],
+          server.vm.network "forwarded_port",
+              guest: fp["guest"], host: fp["host"],
               auto_correct: true, protocol: prot
         end
       end
@@ -53,7 +54,8 @@ Vagrant.configure("2") do |config|
         server.proxy.http = ENV["http_proxy"]
         server.proxy.https = ENV["https_proxy"]
         if ENV["no_proxy"] != ""
-          server.proxy.no_proxy = ENV["no_proxy"] + "," + machine.private_ips.join(",")
+          server.proxy.no_proxy = ENV["no_proxy"] +
+              "," + machine.private_ips.join(",")
         end
       end
 

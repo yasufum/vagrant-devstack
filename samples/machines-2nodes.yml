@@ -1,6 +1,6 @@
 machines:
 
-  - name: controller
+  - hostname: controller
     provider: virtualbox
     box: ubuntu/focal64
     nof_cpus: 2
@@ -15,7 +15,7 @@ machines:
       - guest: 6081
         host: 6081
 
-  - name: compute
+  - hostname: compute
     provider: virtualbox
     box: ubuntu/focal64
     nof_cpus: 4

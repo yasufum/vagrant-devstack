@@ -109,7 +109,7 @@ environment.
 ```yaml
 machines:
 
-  - name: controller
+  - hostname: controller
     provider: virtualbox
     box: ubuntu/focal64
     nof_cpus: 4

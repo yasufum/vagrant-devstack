@@ -1,0 +1,13 @@
+---
+- name: install docker.io
+  become: yes
+  apt: name=docker.io
+
+- name: add docker group
+  become: yes
+  command: groupadd docker
+  ignore_errors: true
+
+- name: add user to docker group
+  become: yes
+  command: usermod -aG docker {{ ansible_env.USER }}

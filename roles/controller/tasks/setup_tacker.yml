@@ -1,0 +1,25 @@
+---
+- name: git clone tacker
+  git:
+      repo=https://opendev.org/openstack/tacker.git
+      dest={{ ansible_env.HOME }}/tacker
+
+- name: copy local.conf
+  shell: cp {{ ansible_env.HOME }}/tacker/devstack/{{ item }} \
+         {{ ansible_env.HOME }}/devstack/{{ item }}
+  with_items:
+      - local.conf.example
+      - local.conf.kubernetes
+
+- name: replace IP address for controller VM
+  lineinfile:
+      path={{ ansible_env.HOME }}/devstack/{{ item }}
+      line='HOST_IP=192.168.33.11'
+      regexp='^HOST_IP=127\.0\.0\.1'
+  with_items:
+      - local.conf.example
+      - local.conf.kubernetes
+
+- name: use local.conf.example as local.conf
+  shell: cp {{ ansible_env.HOME }}/devstack/local.conf.example \
+         {{ ansible_env.HOME }}/devstack/local.conf

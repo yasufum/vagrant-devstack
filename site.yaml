@@ -1,0 +1,6 @@
+---
+- name: controller
+  hosts: controller
+  remote_user: stack
+  roles:
+      - controller

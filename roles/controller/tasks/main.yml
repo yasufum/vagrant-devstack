@@ -1,0 +1,10 @@
+---
+- include: basic_pkgs.yml
+- include: set_path_env.yml
+- include: python3_specific_vers.yml
+#- include: docker.yml
+- include: vim8.yml
+- include: vim_setup.yml
+- include: devstack.yml
+- include: extras.yml
+- include: setup_tacker.yml

@@ -97,7 +97,6 @@ Vagrant.configure("2") do |config|
       server.vm.provision "shell", inline: <<-SHELL
         useradd -s /bin/bash -d /opt/stack -m stack
         echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
-        echo "export VAGRANT_PRIVATE_IP0=#{machine.private_ips[0]}" >> /opt/stack/.bashrc
         mkdir -p /opt/stack/.ssh
         echo "#{ssh_pub_key}" >> /opt/stack/.ssh/authorized_keys
       SHELL

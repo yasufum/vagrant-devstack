@@ -14,7 +14,7 @@
 - name: replace IP address for controller VM
   lineinfile:
       path={{ ansible_env.HOME }}/devstack/{{ item }}
-      line='HOST_IP=192.168.33.11'
+      line='HOST_IP={{ ansible_host }}'
       regexp='^HOST_IP=127\.0\.0\.1'
   with_items:
       - local.conf.example

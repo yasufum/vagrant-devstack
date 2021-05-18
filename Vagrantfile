@@ -6,11 +6,14 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
+require "yaml"
 load "lib/machine.rb"
+load "lib/vd_utils.rb"
 
-ssh_pub_key = open(Dir.home + "/.ssh/id_ed25519.pub").read
+config = YAML.load(open("machines.yml"))
 
-machines = Machines.new(open("machines.yml"))
+ssh_pub_key = VdUtils.ssh_pub_key(config)
+machines = Machines.new(config["machines"])
 
 # Check if you have already downloaded target box.
 box_list = []

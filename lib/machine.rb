@@ -24,9 +24,8 @@ class Machines < Array
     end
   end
 
-  def initialize(yaml_file)
-    y = YAML.load(yaml_file)
-    y["machines"].each_with_index do |m, idx|
+  def initialize(machines_attr)
+    machines_attr.each_with_index do |m, idx|
       self[idx] = Machine.new(
         m["hostname"], m["provider"], m["box"],
         m["nof_cpus"], m["mem_size"], m["disk_size"],

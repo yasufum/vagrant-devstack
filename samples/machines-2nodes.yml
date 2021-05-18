@@ -1,3 +1,8 @@
+global:
+  # (optional) Path of your SSH public key copied on remote nodes.
+  # Default value is "~/.ssh/id_rsa.pub".
+  #ssh_pub_key: "~/.ssh/id_rsa.pub"
+
 machines:
 
   - hostname: controller

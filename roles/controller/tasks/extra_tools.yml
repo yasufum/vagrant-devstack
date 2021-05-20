@@ -12,7 +12,7 @@
   git: repo=https://github.com/yasufum/bash_utils.git
        dest=bash_utils
 
-- name: install word find command
+- name: add path for word find command
   lineinfile:
       line="source ${HOME}/bash_utils/wf.sh"
       dest={{ ansible_env.HOME }}/.bashrc

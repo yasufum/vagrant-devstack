@@ -11,6 +11,7 @@
       - local.conf.example
       - local.conf.kubernetes
 
+# TODO: set passwords from group_vars/all.yml.
 - name: replace IP address for controller VM
   lineinfile:
       path={{ ansible_env.HOME }}/devstack/{{ item }}

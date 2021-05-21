@@ -22,6 +22,9 @@ database_password: devstack
 rabbit_password: devstack
 service_password: devstack
 
+# controller
+service_token: devstack
+
 # compute nodes
 service_host: 192.168.33.11
 floating_range: 192.168.33.128/25

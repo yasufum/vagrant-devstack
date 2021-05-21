@@ -96,11 +96,16 @@ Vagrant.configure("2") do |config|
         vb.memory = "#{machine.mem_size * 1024}"
       end
 
+      # NOTE: remove `python3-launchpadlib` which causes many warinings, and
+      #       run autoremove to clean related packages.
       server.vm.provision "shell", inline: <<-SHELL
         useradd -s /bin/bash -d /opt/stack -m stack
         echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
         mkdir -p /opt/stack/.ssh
         echo "#{ssh_pub_key}" >> /opt/stack/.ssh/authorized_keys
+
+        apt remove python3-launchpadlib -y
+        apt autoremove -y
       SHELL
 
     end

@@ -1,5 +1,20 @@
 ---
-# 1. Configure optional tools on controller node
+# 1. Devstack params
+# common
+admin_password: devstack
+database_password: devstack
+rabbit_password: devstack
+service_password: devstack
+
+# controller
+service_token: devstack
+
+# compute nodes
+service_host: 192.168.33.11
+floating_range: 192.168.33.128/25
+fixed_range: 10.4.128.0/20
+
+# 2. Configure optional tools on controller node
 
 # Install `docker.io` with apt.
 use_docker_io: false
@@ -15,17 +30,3 @@ use_tacker: true
 # Use tools useful for developing.
 use_extra_tools: true
 
-# 2. Devstack params
-# common
-admin_password: devstack
-database_password: devstack
-rabbit_password: devstack
-service_password: devstack
-
-# controller
-service_token: devstack
-
-# compute nodes
-service_host: 192.168.33.11
-floating_range: 192.168.33.128/25
-fixed_range: 10.4.128.0/20

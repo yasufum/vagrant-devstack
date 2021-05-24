@@ -1,6 +1,7 @@
 ---
 - include: basic_pkgs.yml
 - include: set_path_env.yml
+- include: git_config.yml
 
 - include: python3_specific_vers.yml
 

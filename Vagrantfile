@@ -108,6 +108,7 @@ Vagrant.configure("2") do |config|
         apt autoremove -y
       SHELL
 
+      VdUtils.setup_git_config
     end
   end
 end

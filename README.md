@@ -44,9 +44,6 @@ You should take care about `private_ips` which is used in `hosts` for
 
 You should confirm you have a SSH public key before you run vagrant. If your key
 is different from `~/.ssh/id_rsa.pub`, update `ssh_pub_key` in `machines.yml`.
-You might also need to setup git config on controller node. This tool setup your
-git configuration on a VM of controller node. So, confirm git config is done on
-your host.
 
 Run `vagrant up` after configurations are done. It launches VMs and create a
 user `stack` on them.

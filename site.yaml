@@ -1,0 +1,12 @@
+---
+- name: controller node
+  hosts: controller
+  remote_user: stack
+  roles:
+      - controller
+
+- name: compute nodes
+  hosts: compute
+  remote_user: stack
+  roles:
+      - compute

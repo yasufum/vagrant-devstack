@@ -6,9 +6,14 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
+require "yaml"
 load "lib/machine.rb"
+load "lib/vd_utils.rb"
 
-machines = Machines.new(open("machines.yml"))
+config = YAML.load(open("machines.yml"))
+
+ssh_pub_key = VdUtils.ssh_pub_key(config)
+machines = Machines.new(config["machines"])
 
 # Check if you have already downloaded target box.
 box_list = []
@@ -42,11 +47,13 @@ Vagrant.configure("2") do |config|
         end
       end
 
-      machine.fwd_port_list.each do |fp|
-        ["tcp", "udp"].each do |prot|
-          server.vm.network "forwarded_port",
-              guest: fp["guest"], host: fp["host"],
-              auto_correct: true, protocol: prot
+      if machine.fwd_port_list != nil
+        machine.fwd_port_list.each do |fp|
+          ["tcp", "udp"].each do |prot|
+            server.vm.network "forwarded_port",
+                guest: fp["guest"], host: fp["host"],
+                auto_correct: true, protocol: prot
+          end
         end
       end
 
@@ -89,12 +96,19 @@ Vagrant.configure("2") do |config|
         vb.memory = "#{machine.mem_size * 1024}"
       end
 
+      # NOTE: remove `python3-launchpadlib` which causes many warinings, and
+      #       run autoremove to clean related packages.
       server.vm.provision "shell", inline: <<-SHELL
         useradd -s /bin/bash -d /opt/stack -m stack
         echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
-        echo "export VAGRANT_PRIVATE_IP0=#{machine.private_ips[0]}" >> /opt/stack/.bashrc
+        mkdir -p /opt/stack/.ssh
+        echo "#{ssh_pub_key}" >> /opt/stack/.ssh/authorized_keys
+
+        apt remove python3-launchpadlib -y
+        apt autoremove -y
       SHELL
 
+      VdUtils.setup_git_config
     end
   end
 end

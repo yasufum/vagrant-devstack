@@ -1,0 +1,18 @@
+---
+- name: install extra packages
+  become: yes
+  apt: name={{ item }} update_cache=yes
+  with_items:
+      - jq
+      - nmon
+      - lnav
+      - firefox
+
+- name: install word find command
+  git: repo=https://github.com/yasufum/bash_utils.git
+       dest=bash_utils
+
+- name: add path for word find command
+  lineinfile:
+      line="source ${HOME}/bash_utils/wf.sh"
+      dest={{ ansible_env.HOME }}/.bashrc

@@ -1,156 +1,83 @@
 # vagrant-devstack
 
-
 ## What is this
 
-Vagrantfile and helper scripts for install devstack on a VM created by
-[VirtualBox](https://www.virtualbox.org/).
+Deployment tool for devstack for testing multi-VM OpenStack environment,
+consists of vagrant and ansible.
 
-
-## Getting Started
-
-Before launching your VM, you shold install plugin ``vagrant-disksize``
-for expanding size of volume of VM. It is because the default size of
-boxes provided from ubuntu, 10GB or so, is not enough for deploying
-devstack environment.
-
-```sh
-$ vagrant plugin install vagrant-disksize
-```
-
-Then, setup your ``machines.yml`` in which parameters of VMs you will deploy
-are defined from ``samples/machines.yml`` before launching VMs.
-
-```sh
-$ cp samples/machines.yml .
-$ YOUR_FAVORITE_EDITOR machines.yml
-$ vagrant up
-```
-
-You should export your git environment on host to the VM for developing
-your features on the VM and upload it with `git review`.
-`helper/git_setup_gen.sh` is used for generating a script
-`helper/git_setup.sh` to upload your minimum git environment on the VM.
-
-```sh
-# Generate helper/git_setup.sh
-$ sh helper/git_setup_gen.sh
-```
-
-Login and Change to stack user next.
-
-```sh
-$ vagrant ssh
-$ sudo su - stack
-```
-
-Run all of installation at once.
-
-```sh
-$ /vagrant/installer/all.sh
-```
-
-If you created `helper/git_setup.sh`, run this script
-to import the git environment.
-
-```sh
-$ /vagrant/helper/git_setup.sh
-```
-
-Setup devstack.
-
-```sh
-$ cd devstack
-$ cp samples/local.conf .
-# Edit local.conf and run stack.sh
-$ ./stack.sh
-```
+It only supports Ubuntu on VirtualBox currently.
 
 
 ## How to use
 
-This tool is automatically do installation before `Create local.conf`
-described in
-[DevStack Quick Start](https://docs.openstack.org/devstack/latest/).
-You need to create your local.conf and run `stack.sh` on your own.
+### Requirements
 
-### Install VirtualBox and Vagrant
+You need to install required software before running this tool. Please follow
+instructions on official sites for installation.
 
-First of all, you need to download VirtualBox from
-[here](https://www.virtualbox.org/) and install.
+* [VirtualBox](https://www.virtualbox.org/)
+* [vagrant](https://www.vagrantup.com/)
+* [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-You also need to install
-[vagrant](https://www.vagrantup.com/)
-and its plugins.
-``vagrant-disksize`` is for expanding a size of volume of VM.
-It is because the default size is not enough for deploying devstack
-environment.
+Before launching your VMs, you should should install plugin `vagrant-disksize`
+for expanding size of volume of VM. It is because the default size of box
+provided from Ubuntu, 10GB or so, is not enough for deploying devstack
+environment. It's required for expanding the volume size.
 
 ```sh
 $ vagrant plugin install vagrant-disksize
 ```
 
-Install ``vagrant-proxyconf`` plugin if you are in proxy environment.
+### Configure and Fire Up VMs
+
+Before launching VMs with vagrant, configure `machines.yml`, which defines
+parameters of each VM you deploy. It should be placed at project root, or failed
+to run `vagrant up`. You can use template files in `samples` directory.
 
 ```sh
-$ vagrant plugin install vagrant-proxyconf
+$ cp samples/machines.yml .
+$ YOUR_FAVORITE_EDITOR machines.yml
 ```
 
-Now, you are ready to run Vagrantfile.
+You should take care about `private_ips` which is used in `hosts` for
+`ansible-playbook` as explained later.
 
-### Run vagrant with Vagrantfile
+You should confirm you have a SSH public key before you run vagrant. If your key
+is different from `~/.ssh/id_rsa.pub`, update `ssh_pub_key` in `machines.yml`.
 
-Vagrantfile defines params for the VM (cpu, memory, etc.) and
-steps for installation.
-
-You should edit parameters in `machines.yml` to be appropriate for your
-environment.
-
-```yaml
-machines:
-
-  - hostname: controller
-    provider: virtualbox
-    box: ubuntu/focal64
-    nof_cpus: 4
-    mem_size: 8
-    disk_size: 50
-    private_ips:
-      - 192.168.33.11
-    public_ips:
-    fwd_port_list:
-      - guest: 80
-        host: 10080
-```
-
-By running `vagrant up`, basic packages, such as python3 or git,
-are install and stack user is created on the VM.
-
-### Build OpenStack Environment
-
-After VM is launched, login and install DevStack.
-
-You can setup and devstack and tools for building OpenStack environment
-at once by running `all.sh` installer scripts.
-If you do not install all of tools, you can run each of scripts in
-`/vagrant/installer/`.
+Run `vagrant up` after configurations are done. It launches VMs and create a
+user `stack` on them.
 
 ```sh
-$ vagrant ssh
-# Change to stack user
-$ sudo su - stack
-$ /vagrant/installer/all.sh # run all of scripts
+$ vagrant up
 ```
 
-Finally, create your local.conf and run `stack.sh` under cloned `devstack`
-directory.
+If `vagrant up` is completed successfully, you are ready to login to VMs as
+`stack` user with your SSH public key.
+
+### Setup Devstack
+
+This tool provides ansible playbooks for setting up devstack. You should update
+entries of IP addresses in `hosts` as you defined `private_ips` in
+`machines.yml`.
+
+There are some parameters in `group_vars/all.yml` such as password on devstack
+or optional configurations. You don't need to update it usually.
 
 ```sh
+$ ansible-playbook -i hosts site.yml
+```
+
+After finished ansible's tasks, you can login to launched VMs. So, login to
+controller node and run `stack.sh` for installing OpenStack. You will find that
+`local.conf` is prepared for your environment by using its example.
+See instruction how to configure `local.conf` described in
+[DevStack Quick Start](https://docs.openstack.org/devstack/latest/)
+if you customize it by yourself.
+
+```sh
+$ ssh stack@192.168.33.11
 $ cd devstack
-$ cp samples/local.conf .
-$ vim local.conf  # edit it with your favorite editor
+$ YOUR_FAVORITE_EDITOR local.conf
 $ ./stack.sh
 ```
-
-Congulaturations! or you might have an error while running `stack.sh`
-because of a bug :)

@@ -104,8 +104,8 @@ Vagrant.configure("2") do |config|
         mkdir -p /opt/stack/.ssh
         echo "#{ssh_pub_key}" >> /opt/stack/.ssh/authorized_keys
 
-        apt remove python3-launchpadlib -y
-        apt autoremove -y
+        apt-get remove python3-launchpadlib -y
+        apt-get autoremove -y
       SHELL
 
       VdUtils.setup_git_config

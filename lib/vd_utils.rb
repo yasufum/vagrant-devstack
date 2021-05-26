@@ -15,7 +15,7 @@ module VdUtils
       end
     end
     
-    key_path = default_key_path if key_path == nil
+    key_path = File.expand_path(default_key_path) if key_path == nil
     
     begin
       ssh_pub_key = open(key_path).read.chomp

@@ -10,10 +10,10 @@ require "yaml"
 load "lib/machine.rb"
 load "lib/vd_utils.rb"
 
-config = YAML.load(open("machines.yml"))
+vd_config = YAML.load(open("machines.yml"))
 
-ssh_pub_key = VdUtils.ssh_pub_key(config)
-machines = Machines.new(config["machines"])
+ssh_pub_key = VdUtils.ssh_pub_key(vd_config)
+machines = Machines.new(vd_config["machines"])
 
 # Check if you have already downloaded target box.
 box_list = []
@@ -109,6 +109,7 @@ Vagrant.configure("2") do |config|
       SHELL
 
       VdUtils.setup_git_config
+      VdUtils.setup_ssh_config(vd_config)
     end
   end
 end

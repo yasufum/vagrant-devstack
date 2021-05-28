@@ -6,3 +6,4 @@
 
 # except auto-generated file.
 roles/controller/templates/gitconfig.j2
+ssh_config

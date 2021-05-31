@@ -108,11 +108,6 @@ Vagrant.configure("2") do |config|
         apt-get autoremove -y
       SHELL
 
-      # Clean known hosts
-      machine.private_ips.each do |pri_ip|
-        `ssh-keygen -R #{pri_ip}`
-      end
-
       VdUtils.setup_git_config
       VdUtils.setup_ssh_config(vd_config)
     end

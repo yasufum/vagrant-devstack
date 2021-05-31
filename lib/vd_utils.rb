@@ -62,6 +62,10 @@ module VdUtils
       end
       str.chomp
 
+      str += "Host *\n" +
+        "  StrictHostKeyChecking no\n" +
+        "  UserKnownHostsFile=/dev/null\n"
+
       open(dst, "w+") {|f|
         f.write(str)
       }

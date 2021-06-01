@@ -103,6 +103,7 @@ Vagrant.configure("2") do |config|
         echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
         mkdir -p /opt/stack/.ssh
         echo "#{ssh_pub_key}" >> /opt/stack/.ssh/authorized_keys
+        chown -R stack:stack /opt/stack/.ssh
 
         apt-get remove python3-launchpadlib -y
         apt-get autoremove -y

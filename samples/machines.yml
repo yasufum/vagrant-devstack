@@ -6,6 +6,7 @@ machines:
 
   - hostname: controller
     provider: virtualbox
+    # Supported boxes are `ubuntu/focal64`, `centos/8`.
     box: ubuntu/focal64
     nof_cpus: 4
     mem_size: 8

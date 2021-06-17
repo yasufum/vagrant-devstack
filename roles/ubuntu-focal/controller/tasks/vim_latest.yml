@@ -5,4 +5,4 @@
 
 - name: install vim
   become: yes
-  apt: name=vim update_cache=yes
+  apt: name=vim

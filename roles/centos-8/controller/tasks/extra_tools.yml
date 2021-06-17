@@ -1,11 +1,9 @@
 ---
 - name: install extra packages
   become: yes
-  apt: name={{ item }}
+  yum: name={{ item }}
   with_items:
       - jq
-      - nmon
-      - lnav
       - firefox
 
 - name: install word find command

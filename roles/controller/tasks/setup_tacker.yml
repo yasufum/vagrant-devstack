@@ -13,9 +13,12 @@
 
 - name: update HOST_IP in devstack/local.conf.example
   lineinfile:
-      path={{ ansible_env.HOME }}/devstack/local.conf.example
+      path={{ ansible_env.HOME }}/devstack/{{ item }}
       line='HOST_IP={{ ansible_host }}'
       regexp='^HOST_IP=127\.0\.0\.1'
+  with_items:
+      - local.conf.example
+      - local.conf.kubernetes
 
 - name: update other params in devstack/local.conf.example
   lineinfile:

@@ -1,12 +1,12 @@
 ---
 - name: controller node
-  hosts: controller
+  hosts: ubuntu-focal.controller
   remote_user: stack
   roles:
-      - controller
+      - ubuntu-focal/controller
 
 - name: compute nodes
-  hosts: compute
+  hosts: ubuntu-focal.compute
   remote_user: stack
   roles:
-      - compute
+      - ubuntu-focal/compute

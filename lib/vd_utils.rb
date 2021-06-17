@@ -29,11 +29,14 @@ module VdUtils
 
   def setup_git_config()
     src = "~/.gitconfig"
-    dst = "roles/controller/templates/gitconfig.j2"
 
-    gitconfig = File.expand_path src
-    if File.exists? gitconfig
-      FileUtils.copy(gitconfig, dst)
+    Dir.glob("roles/**/controller").each do |target_dir|
+      dst = "#{target_dir}/templates/gitconfig.j2"
+
+      gitconfig = File.expand_path src
+      if File.exists? gitconfig
+        FileUtils.copy(gitconfig, dst)
+      end
     end
   end
 

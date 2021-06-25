@@ -8,3 +8,6 @@ boxes:
     "16.04":
       virtualbox: ubuntu/xenial64
       libvirt: yk0/ubuntu-xenial
+  centos:
+    stream8:
+      virtualbox: centos/stream8

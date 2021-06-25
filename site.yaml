@@ -1,5 +1,5 @@
 ---
-- name: ubuntu-focal  controller node
+- name: ubuntu-focal controller node
   hosts: ubuntu-focal.controller
   remote_user: stack
   roles:
@@ -11,8 +11,8 @@
   roles:
       - ubuntu-focal/compute
 
-- name: centos8 controller node
-  hosts: centos-8.controller
+- name: centos-stream8 controller node
+  hosts: centos-stream8.controller
   remote_user: stack
   roles:
-      - centos-8/controller
+      - centos-stream8/controller

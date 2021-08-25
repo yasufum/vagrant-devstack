@@ -1,6 +1,6 @@
 ---
 # Without removing this package, failed to install while running scripts.
-- include: remove_launchpadlib.yml
+- include: remove_useless_pkgs.yml
 
 - include: basic_pkgs.yml
 - include: set_path_env.yml

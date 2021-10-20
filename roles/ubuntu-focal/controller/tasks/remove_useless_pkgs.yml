@@ -5,12 +5,6 @@
     name: python3-launchpadlib
     state: absent
 
-- name: remove python3-pyans1 conlict with requirements while cinder install
-  become: yes
-  apt:
-    name: python3-pyasn1
-    state: absent
-
 - name: cleanup with autoremove
   become: yes
   apt:

@@ -9,3 +9,8 @@
       - bridge-utils
       - git
       - git-review
+
+- name: upgrade apt packages
+  become: yes
+  apt:
+      upgrade: safe
